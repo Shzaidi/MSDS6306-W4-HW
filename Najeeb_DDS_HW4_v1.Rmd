@@ -1,0 +1,92 @@
+---
+title: "Doing Data Science, HomeWork Week 4: Bootstrap Showing CLT"
+author: "Najeeb Zaidi"
+date: "August 5, 2016"
+output: 
+  html_document: 
+    keep_md: yes
+    theme: spacelab
+---
+
+```{r ex="bootstarp", type="pre-exercise-code"}
+rm(list = ls()) 
+objects()
+getwd() 
+setwd("C:\\Users\\najee\\Documents\\R\\MSDS6306-W4-HW")
+
+library(ggplot2)
+library(stats)
+library(utils)
+library(tutorial)
+library(googleVis)
+library(graphics)
+
+tutorial::go_interactive()
+
+```
+_Note: we could hide this chunk by adding include=FALSE, echo=FALSE in the first line_
+
+
+# Introduction
+In this presentation, we attempt to illustrate the Central Limit Theorem using the Bootstrap Method or Simulation Method on a sample data set.
+
+We also describe the advantage of using this technique when compared to other methods .
+
+This HTML uses DataCamp Interactive to display the R code used and is the improved version of plain text file presented earlier.
+
+## Central Limit Theorem (CLT)
+[describe]
+
+## Bootstrap / Simulation Method
+[describe]
+
+## Illustrations
+
+The first illustration below uses the Parametric Bootstrap.
+We use a random sample of x & y observations and define the number of simulations as well as set the seed to ensure results are replicated at a later stage:
+
+```{r ex="bootstarp", type="sample-code"}
+
+x <- c(187, 169, 123, 166, 199, 127, 159, 155, 145, 142, 171)
+y <- c(122, 45, 98, 38, 148, 179, 193, 54, 22, 245)
+
+n1 <- length(x)
+n2 <- length(y)
+
+# Set number of Simulations 
+k <- 10000
+
+# define seed number such that the following computations can be replicated or reproduced
+set.seed(1234)
+```
+
+
+```{r ex="bootstarp", type="solution"}
+
+# Simulate or Bootstrap with replacement by repliocating from k samples of n1 & n2 normal 
+# distributions with the right mean and variance 
+# Also called the Parametric Bootstrap
+
+simXsample <- replicate(k, rnorm(n1, mean(x), sd(x)))
+simYsample <- replicate(k, rnorm(n2, mean(x), sd(x)))
+
+# Compute mean differences of the n1 & n2 simulated observations k times
+
+simMeanDifs <- apply(simXsample, 2, mean) - apply(simYsample, 2, mean)
+
+# find the two relevant quantiles of k simulated mean differences
+# i.e. 95% CI 
+quantile(simMeanDifs, c(0.025 , 0.975))
+
+```
+The Histogram plot of simulated mean differences looks like this:
+
+```{r ex="bootstarp", type="sct"}
+# Plot
+hist(simMeanDifs, col = c("green"))
+
+```
+
+
+
+

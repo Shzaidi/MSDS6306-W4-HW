@@ -1,6 +1,7 @@
 library(ggplot2)
 library(stats)
 library(utils)
+suppressPackageStartupMessages(library(googleVis))
 
 # Sample Data
 
@@ -11,7 +12,7 @@ n1 <- length(x)
 n2 <- length(y)
 
 # Set number of Simulations 
-k <- 100000
+k <- 10000
 
 # define seed number such that the following computations can be replicated or reproduced
 set.seed(1234)
@@ -29,13 +30,17 @@ simMeanDifs <- apply(simXsample, 2, mean) - apply(simYsample, 2, mean)
 
 # find the two relevant quantiles of k simulated mean differences
 # i.e. 95% CI 
-quantile(simMeanDifs, c(0.025 , 0.975)
-         
-         # Plot
-         
-         hist(simMeanDifs, col="red", nclass=30)
-         
-         
+quantile(simMeanDifs, c(0.025 , 0.975))
+
+# Plot
+hist(simMeanDifs, col = c("green"))
+
+
+#Histo <- gvisHistogram(data.frame(simMeanDifs), options = list(title = "ABC", legend = "{ position: 'none' }", colors = "['green']"), chartid = "a")
+#plot(Histo)
+## http://127.0.0.1:23979/custom/googleVis/a.html
+
+
          ####################################################################
          
          # if we use rexp() function instead of rnorm that signifies that 
